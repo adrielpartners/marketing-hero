@@ -43,7 +43,7 @@ use MarketingHero\Support\Helpers;
         <?php foreach ($activities as $activity) : ?>
           <div class="mh-item">
             <div class="mh-item__left">
-              <p class="mh-item__title"><?php echo esc_html(ucwords(str_replace('_', ' ', (string) $activity['type']))); ?></p>
+              <p class="mh-item__title"><?php echo esc_html(ucwords(str_replace('_', ' ', (string) $activity['channel_name']))); ?></p>
               <p class="mh-item__meta"><?php echo esc_html((string) $activity['occurred_at'] . ' · Qty ' . (int) $activity['quantity']); ?></p>
             </div>
             <form method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>">
