@@ -18,6 +18,9 @@ $tables = [
     $wpdb->prefix . 'mh_activity',
     $wpdb->prefix . 'mh_result',
     $wpdb->prefix . 'mh_campaign',
+    $wpdb->prefix . 'mh_channel',
+    $wpdb->prefix . 'mh_result_category',
+    $wpdb->prefix . 'mh_settings',
 ];
 
 foreach ($tables as $table) {
@@ -25,3 +28,5 @@ foreach ($tables as $table) {
 }
 
 delete_option('mh_delete_data_on_uninstall');
+
+delete_option('mh_db_version');

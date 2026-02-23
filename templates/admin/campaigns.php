@@ -24,14 +24,24 @@
 
       <article class="mh-card"><div class="mh-card__head"><h2 class="mh-card__title">Campaign List</h2></div><div class="mh-card__body"><div class="mh-list">
       <?php foreach ($campaigns as $campaign) : ?>
-        <div class="mh-item"><div class="mh-item__left"><p class="mh-item__title"><?php echo esc_html((string) $campaign['name']); ?></p><p class="mh-item__meta"><?php echo esc_html((string) ($campaign['start_date'] ?: '-') . ' → ' . (string) ($campaign['end_date'] ?: '-')); ?></p></div>
-        <form method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>">
-          <input type="hidden" name="action" value="mh_delete_campaign" />
-          <input type="hidden" name="id" value="<?php echo esc_attr((string) $campaign['id']); ?>" />
-          <?php wp_nonce_field('mh_delete_campaign'); ?>
-          <button class="mh-btn" data-mh-confirm="Delete this campaign?" type="submit">Delete</button>
-        </form>
-        </div>
+        <details class="mh-item mh-item--stack">
+          <summary class="mh-item__summary">
+            <div class="mh-item__left">
+              <p class="mh-item__title"><?php echo esc_html((string) $campaign['name']); ?></p>
+              <p class="mh-item__meta"><?php echo esc_html((string) ($campaign['start_date'] ?: '-') . ' → ' . (string) ($campaign['end_date'] ?: '-')); ?></p>
+            </div>
+            <span class="mh-muted">Click to view notes</span>
+          </summary>
+          <div class="mh-item__details">
+            <p class="mh-item__meta"><?php echo esc_html((string) ($campaign['notes'] ?: 'No notes yet.')); ?></p>
+            <form method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>">
+              <input type="hidden" name="action" value="mh_delete_campaign" />
+              <input type="hidden" name="id" value="<?php echo esc_attr((string) $campaign['id']); ?>" />
+              <?php wp_nonce_field('mh_delete_campaign'); ?>
+              <button class="mh-btn" data-mh-confirm="Delete this campaign?" type="submit">Delete</button>
+            </form>
+          </div>
+        </details>
       <?php endforeach; ?>
       </div></div></article>
     </div>

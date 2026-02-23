@@ -37,56 +37,66 @@ final class AdminMenu
         $range = DateRange::fromQueryParams($_GET);
         $dashboard = $this->container->dashboard();
 
-        $data = [
+        $this->renderTemplate('dashboard', [
             'range' => $range,
             'kpis' => $dashboard->getKpis($range),
             'inputs' => $dashboard->getInputsSummary($range),
             'outputs' => $dashboard->getOutputsSummary($range),
-        ];
-
-        $this->renderTemplate('dashboard', $data);
+            'campaigns' => $this->container->campaigns()->listAll(),
+            'channels' => $this->container->channels()->listGrouped(),
+            'resultCategories' => $this->container->resultCategories()->listAll(),
+        ]);
     }
 
     public function renderActivities(): void
     {
         $this->guard();
         $range = DateRange::fromQueryParams($_GET);
-        $data = [
+        $this->renderTemplate('activities', [
             'range' => $range,
             'activities' => $this->container->activities()->list($range, ['limit' => 100]),
             'campaigns' => $this->container->campaigns()->listAll(),
-        ];
-
-        $this->renderTemplate('activities', $data);
+            'channels' => $this->container->channels()->listGrouped(),
+        ]);
     }
 
     public function renderResults(): void
     {
         $this->guard();
         $range = DateRange::fromQueryParams($_GET);
-        $data = [
+        $this->renderTemplate('results', [
             'range' => $range,
             'results' => $this->container->results()->list($range, ['limit' => 100]),
             'campaigns' => $this->container->campaigns()->listAll(),
-        ];
-
-        $this->renderTemplate('results', $data);
+            'channels' => $this->container->channels()->listGrouped(),
+            'resultCategories' => $this->container->resultCategories()->listAll(),
+            'activities' => $this->container->activities()->list($range, ['limit' => 1000]),
+        ]);
     }
 
     public function renderCampaigns(): void
     {
         $this->guard();
-        $data = [
-            'campaigns' => $this->container->campaigns()->listAll(),
-        ];
-
-        $this->renderTemplate('campaigns', $data);
+        $this->renderTemplate('campaigns', ['campaigns' => $this->container->campaigns()->listAll()]);
     }
 
     public function renderSettings(): void
     {
         $this->guard();
-        $this->renderTemplate('settings', []);
+        $upgrades = [];
+        $configFile = MARKETING_HERO_PATH . 'config/upgrades.php';
+        if (file_exists($configFile)) {
+            $loaded = include $configFile;
+            $upgrades = is_array($loaded) ? $loaded : [];
+        }
+
+        $this->renderTemplate('settings', [
+            'channels' => $this->container->channels()->listGrouped(),
+            'resultCategories' => $this->container->resultCategories()->listAll(),
+            'teamRate' => (int) $this->container->settings()->get('team_time_cost_per_hour_cents', '0'),
+            'ownerRate' => (int) $this->container->settings()->get('owner_time_cost_per_hour_cents', '0'),
+            'upgrades' => $upgrades,
+        ]);
     }
 
     private function guard(): void
