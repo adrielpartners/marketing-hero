@@ -54,7 +54,6 @@ final class PostHandlers
             'team_time_minutes' => (int) round($teamHoursFloat * 60),
             'owner_time_minutes' => (int) round($ownerHoursFloat * 60),
             'campaign_id' => absint($_POST['campaign_id'] ?? 0) ?: null,
-            'source' => sanitize_text_field((string) ($_POST['source'] ?? '')),
             'notes' => sanitize_textarea_field((string) ($_POST['notes'] ?? '')),
             'meta_json' => null,
         ]);
