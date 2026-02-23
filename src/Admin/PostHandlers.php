@@ -43,24 +43,24 @@ final class PostHandlers
         $this->verify('mh_add_activity');
 
         $occurredAtUtc = Helpers::toUtcDatetime((string) sanitize_text_field($_POST['occurred_at'] ?? ''));
-        $teamHours = absint($_POST['team_hours'] ?? 0);
-        $teamMinutes = absint($_POST['team_minutes'] ?? 0);
-        $ownerHours = absint($_POST['owner_hours'] ?? 0);
-        $ownerMinutes = absint($_POST['owner_minutes'] ?? 0);
+        $teamHoursFloat = (float) ($_POST['team_hours'] ?? 0);
+        $ownerHoursFloat = (float) ($_POST['owner_hours'] ?? 0);
 
         $this->container->activities()->create([
             'occurred_at' => $occurredAtUtc,
             'channel_id' => absint($_POST['channel_id'] ?? 0) ?: $this->container->channels()->getUncategorizedId(),
             'quantity' => absint($_POST['quantity'] ?? 1),
             'cash_investment_cents' => $this->parseMoneyToCents((string) ($_POST['cash_investment'] ?? '0')),
-            'team_time_minutes' => ($teamHours * 60) + $teamMinutes,
-            'owner_time_minutes' => ($ownerHours * 60) + $ownerMinutes,
+            'team_time_minutes' => (int) round($teamHoursFloat * 60),
+            'owner_time_minutes' => (int) round($ownerHoursFloat * 60),
             'campaign_id' => absint($_POST['campaign_id'] ?? 0) ?: null,
             'notes' => sanitize_textarea_field((string) ($_POST['notes'] ?? '')),
             'meta_json' => null,
         ]);
 
-        wp_safe_redirect(Helpers::pageUrl('marketing-hero-dashboard', array_merge(['mh_notice' => 'activity_added'], $this->rangeArgs())));
+        $returnPage = sanitize_key((string) ($_POST['return_page'] ?? 'marketing-hero-dashboard'));
+        $targetPage = in_array($returnPage, ['marketing-hero-dashboard', 'marketing-hero-activities'], true) ? $returnPage : 'marketing-hero-dashboard';
+        wp_safe_redirect(Helpers::pageUrl($targetPage, array_merge(['mh_notice' => 'activity_added'], $this->rangeArgs())));
         exit;
     }
 
@@ -92,7 +92,9 @@ final class PostHandlers
             'meta_json' => null,
         ]);
 
-        wp_safe_redirect(Helpers::pageUrl('marketing-hero-dashboard', array_merge(['mh_notice' => 'result_added'], $this->rangeArgs())));
+        $returnPage = sanitize_key((string) ($_POST['return_page'] ?? 'marketing-hero-dashboard'));
+        $targetPage = in_array($returnPage, ['marketing-hero-dashboard', 'marketing-hero-results'], true) ? $returnPage : 'marketing-hero-dashboard';
+        wp_safe_redirect(Helpers::pageUrl($targetPage, array_merge(['mh_notice' => 'result_added'], $this->rangeArgs())));
         exit;
     }
 

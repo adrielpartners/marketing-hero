@@ -13,8 +13,8 @@
       <form method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>">
         <input type="hidden" name="action" value="mh_save_settings" />
         <?php wp_nonce_field('mh_save_settings'); ?>
-        <div class="mh-field"><label class="mh-label">Team time cost per hour (cents)</label><input class="mh-input" type="number" min="0" name="team_time_cost_per_hour_cents" value="<?php echo esc_attr((string) $teamRate); ?>" /></div>
-        <div class="mh-field"><label class="mh-label">Owner time cost per hour (cents)</label><input class="mh-input" type="number" min="0" name="owner_time_cost_per_hour_cents" value="<?php echo esc_attr((string) $ownerRate); ?>" /></div>
+        <div class="mh-field"><label class="mh-label">Team time cost per hour (dollars)</label><input class="mh-input" type="number" min="0" name="team_time_cost_per_hour_cents" value="<?php echo esc_attr((string) $teamRate); ?>" /></div>
+        <div class="mh-field"><label class="mh-label">Owner time cost per hour (dollars)</label><input class="mh-input" type="number" min="0" name="owner_time_cost_per_hour_cents" value="<?php echo esc_attr((string) $ownerRate); ?>" /></div>
         <button class="mh-btn mh-btn--primary" type="submit">Save Settings</button>
       </form>
     </div></article>

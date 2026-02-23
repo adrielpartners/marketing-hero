@@ -76,3 +76,7 @@
 .mh-modal__head button { border:0; background:none; font-size:24px; cursor:pointer; }
 .mh-modal__body { padding:16px 18px; max-height:76vh; overflow:auto; }
 body.mh-modal-open { overflow:hidden; }
+.mh-item--stack { display:block; }
+.mh-item__summary { list-style:none; display:flex; justify-content:space-between; align-items:flex-start; gap:12px; cursor:pointer; }
+.mh-item__summary::-webkit-details-marker { display:none; }
+.mh-item__details { margin-top:10px; padding-top:10px; border-top:1px dashed var(--mh-border); display:flex; justify-content:space-between; align-items:flex-start; gap:12px; }

@@ -70,6 +70,7 @@ final class AdminMenu
             'campaigns' => $this->container->campaigns()->listAll(),
             'channels' => $this->container->channels()->listGrouped(),
             'resultCategories' => $this->container->resultCategories()->listAll(),
+            'activities' => $this->container->activities()->list($range, ['limit' => 1000]),
         ]);
     }
 

@@ -20,9 +20,10 @@ final class DbActivityRepository extends AbstractDbRepository implements Activit
             'team_time_minutes' => (int) ($data['team_time_minutes'] ?? 0),
             'owner_time_minutes' => (int) ($data['owner_time_minutes'] ?? 0),
             'campaign_id' => isset($data['campaign_id']) ? (int) $data['campaign_id'] : null,
+            'source' => $data['source'] ?? null,
             'notes' => $data['notes'] ?? null,
             'meta_json' => $data['meta_json'] ?? null,
-        ], ['%s', '%s', '%d', '%d', '%d', '%d', '%d', '%d', '%s', '%s']);
+        ], ['%s', '%s', '%d', '%d', '%d', '%d', '%d', '%d', '%s', '%s', '%s']);
 
         return $ok === false ? 0 : (int) $this->wpdb->insert_id;
     }
