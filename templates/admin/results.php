@@ -5,7 +5,7 @@
 ?>
 <div class="wrap mh-admin">
   <div class="mh-wrap">
-    <div class="mh-header"><div><h1 class="mh-title">Results</h1><p class="mh-subtitle"><?php echo esc_html($range->label()); ?></p></div></div>
+    <div class="mh-header"><div><h1 class="mh-title">Results (Leads, Appointments, Sales...)</h1><p class="mh-subtitle"><?php echo esc_html($range->label()); ?></p></div></div>
 
     <?php if (isset($_GET['mh_notice'])) : ?>
       <div class="notice notice-success is-dismissible"><p><?php echo esc_html(sanitize_text_field((string) $_GET['mh_notice'])); ?></p></div>
@@ -28,7 +28,7 @@
 
       <article class="mh-card"><div class="mh-card__head"><h2 class="mh-card__title">Recent Results</h2></div><div class="mh-card__body"><div class="mh-list">
         <?php foreach ($results as $result) : ?>
-          <div class="mh-item"><div class="mh-item__left"><p class="mh-item__title"><?php echo esc_html(ucfirst((string) $result['type'])); ?></p><p class="mh-item__meta"><?php echo esc_html((string) $result['occurred_at']); ?></p></div>
+          <div class="mh-item"><div class="mh-item__left"><p class="mh-item__title"><?php echo esc_html(ucfirst((string) $result['result_category_name'])); ?></p><p class="mh-item__meta"><?php echo esc_html((string) $result['occurred_at']); ?></p></div>
             <form method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>">
               <input type="hidden" name="action" value="mh_delete_result" />
               <input type="hidden" name="id" value="<?php echo esc_attr((string) $result['id']); ?>" />
